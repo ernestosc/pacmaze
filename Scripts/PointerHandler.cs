@@ -28,17 +28,17 @@ public class PointerHandler : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Pointer"))
-        {
-            GameObject pointer = other.gameObject;
-            //GetComponent<Rigidbody>().velocity += (pointer.transform.position - old);
-            // transform.position += (pointer.transform.position - old);
-            Vector3 move = pointer.transform.position - old;
-            //GetComponent<Rigidbody>().MovePosition(transform.position + move);
-            //GetComponent<Rigidbody>().AddForce(move*scale);
-            GetComponent<Rigidbody>().MovePosition(transform.position + GetMaxDirection(move));
-            old = pointer.transform.position;
-        }
+        // if (other.gameObject.CompareTag("Pointer"))
+        // {
+        //     GameObject pointer = other.gameObject;
+        //     //GetComponent<Rigidbody>().velocity += (pointer.transform.position - old);
+        //     // transform.position += (pointer.transform.position - old);
+        //     Vector3 move = pointer.transform.position - old;
+        //     //GetComponent<Rigidbody>().MovePosition(transform.position + move);
+        //     //GetComponent<Rigidbody>().AddForce(move*scale);
+        //     GetComponent<Rigidbody>().MovePosition(transform.position + GetMaxDirection(move));
+        //     old = pointer.transform.position;
+        // }
     }
 
     void OnTriggerExit(Collider other) {
