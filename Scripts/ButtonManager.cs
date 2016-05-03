@@ -6,16 +6,16 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 
 
 	//constants for states
-	const int START_STATE = 0;
-	const int ZOOM_STATE = 1;
-	const int SELECTED_STATE = 2;
-	const int MOVE_STATE = 3;
-	const int MANIPULATE_STATE = 4;
-	const int SCALE_STATE = 5;
-	const int ROTATION_STATE = 6;
-	const int XROT_STATE = 7;
-	const int YROT_STATE = 8;
-	const int ZROT_STATE = 9;
+	public int START_STATE = 0;
+    public int ZOOM_STATE = 1;
+    public int SELECTED_STATE = 2;
+    public int MOVE_STATE = 3;
+    public int MANIPULATE_STATE = 4;
+    public int SCALE_STATE = 5;
+    public int ROTATION_STATE = 6;
+    public int XROT_STATE = 7;
+    public int YROT_STATE = 8;
+    public int ZROT_STATE = 9;
 
 
 	const int ZOOM = 0;
@@ -32,10 +32,10 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 	const int CANCEL = 11;
 
 
-	int currentState;
+    public int currentState;
 
 	VirtualButtonBehaviour[] vbs;
-	public static bool objSelected;
+	public bool objSelected;
 
 	public GameObject[] prefabBtns;
 
@@ -88,10 +88,11 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 	}
 
 	public void OnButtonPressed(VirtualButtonAbstractBehaviour vb) {
-
-		CancelBtn = Instantiate (prefabBtns [CANCEL]) as GameObject;
-		CancelBtn.transform.SetParent (this.gameObject.transform);
-
+        if (currentState != START_STATE)
+        {
+            CancelBtn = Instantiate(prefabBtns[CANCEL]) as GameObject;
+            CancelBtn.transform.SetParent(this.gameObject.transform);
+        }
 
 		//big if else of each button (through the tags) if vb.compareTag....
 		if (vb.CompareTag ("Zoom")) { 
@@ -99,9 +100,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 			if (!objSelected) {
 
 				Destroy (ZoomBtn);
-
-				UndoBtn = Instantiate (prefabBtns [UNDO]) as GameObject;
-				UndoBtn.transform.SetParent (this.gameObject.transform);
 
 				RotatorBtn = Instantiate (prefabBtns [ROTATE]) as GameObject;
 				RotatorBtn.transform.SetParent (this.gameObject.transform);
@@ -143,20 +141,22 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 			
 		} else if (vb.CompareTag ("Rotator")) {
 
+            if (currentState == ZOOM_STATE)
+            {
+                Destroy(RotatorBtn);
+                Destroy(ScalerBtn);  
 
-			DoneBtn = Instantiate (prefabBtns [DONE]) as GameObject;
-			DoneBtn.transform.SetParent (this.gameObject.transform);
+                XRotBtn = Instantiate(prefabBtns[XROT]) as GameObject;
+                XRotBtn.transform.SetParent(this.gameObject.transform);
 
-			XRotBtn = Instantiate (prefabBtns [XROT]) as GameObject;
-			XRotBtn.transform.SetParent (this.gameObject.transform);
+                YRotBtn = Instantiate(prefabBtns[YROT]) as GameObject;
+                YRotBtn.transform.SetParent(this.gameObject.transform);
 
-			YRotBtn = Instantiate (prefabBtns [YROT]) as GameObject;
-			YRotBtn.transform.SetParent (this.gameObject.transform);
+                ZRotBtn = Instantiate(prefabBtns[ZROT]) as GameObject;
+                ZRotBtn.transform.SetParent(this.gameObject.transform);
 
-			ZRotBtn = Instantiate (prefabBtns [ZROT]) as GameObject;
-			ZRotBtn.transform.SetParent (this.gameObject.transform);
-
-			currentState = ROTATION_STATE;
+                currentState = ROTATION_STATE;
+            }
 
 			
 		} else if (vb.CompareTag ("Translator")) {

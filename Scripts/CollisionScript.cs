@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class collisionScript : MonoBehaviour {
+public class CollisionScript : MonoBehaviour {
 
     int i = 0;
     private Vector3 deltaPos;
