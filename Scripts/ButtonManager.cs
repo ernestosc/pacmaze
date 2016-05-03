@@ -33,6 +33,9 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 
 
     public int currentState;
+    public GameObject maze;
+    public GameObject cookie;
+    public GameObject thingToManipulate;
 
 	VirtualButtonBehaviour[] vbs;
 	public bool objSelected;
@@ -110,6 +113,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 				DoneBtn = Instantiate (prefabBtns [DONE]) as GameObject;
 				DoneBtn.transform.SetParent (this.gameObject.transform);
 
+                thingToManipulate = maze;
 				currentState = ZOOM_STATE;
 
 			}
@@ -136,7 +140,8 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 			DoneBtn = Instantiate (prefabBtns [DONE]) as GameObject;
 			DoneBtn.transform.SetParent (this.gameObject.transform);
 
-			currentState = MANIPULATE_STATE;
+            thingToManipulate = cookie;
+            currentState = MANIPULATE_STATE;
 
 			
 		} else if (vb.CompareTag ("Rotator")) {

@@ -1,43 +1,35 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿
+using UnityEngine;
 using System.Collections;
 
-public class ScaleHandler : MonoBehaviour {
+public class ScaleHandler : MonoBehaviour
+{
 
-    public GameObject player;
+    public ButtonManager buttonManager;
+    private Vector3 deltaPos;
+    private Vector3 pos;
     public GameObject pointer;
-    GameObject clone;
-    float scale = 0.025f;
-    bool scaling;
-    Vector3 old;
-    private Text status;
 
     // Use this for initialization
-    void Start () {
-        scaling = false;
-        status = this.GetComponentInChildren<Text>();
+    void Start()
+    {
+        pos = pointer.transform.position;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (scaling) {
-            player.transform.localScale += (pointer.transform.position - old) * scale;
-            old = pointer.transform.position;
-        }
-    }
+        deltaPos = pointer.transform.position - pos;
+        pos = pointer.transform.position;
 
-    public void scaleSwitch() {
-        if (EditController.inMode && !scaling)
+        if (buttonManager.currentState == buttonManager.SCALE_STATE)
         {
-            status.text = "FINISH";
-            scaling = true;
-            old = pointer.transform.position;
+            Vector3 localScale = buttonManager.thingToManipulate.transform.localScale;
+            buttonManager.thingToManipulate.transform.localScale = 
+                new Vector3(localScale.x + deltaPos.y, localScale.y + deltaPos.y, localScale.z + deltaPos.y);
+
         }
-        else if (EditController.inMode && scaling)
-        {
-            status.text = "SCALE";
-            scaling = false;
-        }
+
     }
 }

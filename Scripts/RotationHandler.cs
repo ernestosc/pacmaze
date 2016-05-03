@@ -1,40 +1,42 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
-public class RotationHandler : MonoBehaviour {
+public class RotationHandler : MonoBehaviour
+{
 
+    public ButtonManager buttonManager;
+    private Vector3 deltaPos;
+    private Vector3 pos;
+    public GameObject pointer;
 
-	//script will be attached to rotation Axis btns
+    // Use this for initialization
+    void Start()
+    {
+        pos = pointer.transform.position;
 
-	public GameObject player;
-	public GameObject pointer;
-	float rotateStep = 15;
-	bool rotating;
-	Vector3 initialRot; //in case of undo
-	Vector3 prevRot; //for each frame update
-	public static bool aroundXAxis;
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        deltaPos = pointer.transform.position - pos;
+        pos = pointer.transform.position;
 
-	// Use this for initialization
-	void Start () {
-	
-		rotating = false;
-		initialRot = player.gameObject.transform.localEulerAngles;
+        if (buttonManager.currentState == buttonManager.XROT_STATE)
+        {
+            buttonManager.thingToManipulate.transform.Rotate(deltaPos.x * Time.deltaTime, 0, 0);
+        }
+        else if (buttonManager.currentState == buttonManager.YROT_STATE)
+        {
+            buttonManager.thingToManipulate.transform.Rotate(0, deltaPos.y * Time.deltaTime, 0);
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        }
+        else if (buttonManager.currentState == buttonManager.ZROT_STATE)
+        {
+            buttonManager.thingToManipulate.transform.Rotate(0, 0, deltaPos.z * Time.deltaTime);
 
-		if (rotating) {
-		
-		
-		}
-	
-	}
+        }
 
-
-
-
-
+    }
 }
