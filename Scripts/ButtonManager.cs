@@ -44,19 +44,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     //public GameObject[] prefabBtns;
     public VirtualButtonBehaviour[] buttons;
 
-    // GameObject ZoomBtn;
-    // GameObject UndoBtn;
-    // GameObject DoneBtn;
-    // GameObject TeleportBtn;
-    // GameObject ManipulatorBtn;
-    // GameObject TranslatorBtn;
-    // GameObject ScalerBtn;
-    // GameObject RotatorBtn;
-    // GameObject XRotBtn;
-    // GameObject YRotBtn;
-    // GameObject ZRotBtn;
-    // GameObject CancelBtn;
-
     // Use this for initialization
     void Start () {
 
@@ -66,10 +53,10 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
         manipulateClone = false;
 
         // Search for all Children from this ImageTarget with type VirtualButtonBehaviour
-        vbs = GetComponentsInChildren<VirtualButtonBehaviour>();
-        for (int i = 0; i < vbs.Length; ++i) {
+        //vbs = GetComponentsInChildren<VirtualButtonBehaviour>();
+        for (int i = 0; i < buttons.Length; ++i) {
             // Register with the virtual buttons TrackableBehaviour
-            vbs[i].RegisterEventHandler(this);
+            buttons[i].RegisterEventHandler(this);
         }
 
         for (int i = 0; i < buttons.Length; ++i)
@@ -85,11 +72,11 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 	// Update is called once per frame
 	void Update () {
 
-		vbs = GetComponentsInChildren<VirtualButtonBehaviour>();
-		for (int i = 0; i < vbs.Length; ++i) {
-			// Register with the virtual buttons TrackableBehaviour
-			vbs[i].RegisterEventHandler(this);
-        }
+		// vbs = GetComponentsInChildren<VirtualButtonBehaviour>();
+		// for (int i = 0; i < vbs.Length; ++i) {
+		// 	// Register with the virtual buttons TrackableBehaviour
+		// 	vbs[i].RegisterEventHandler(this);
+        // }
 
         if (objSelected && currentState == START_STATE)
         {
@@ -113,12 +100,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     }
 
 	public void OnButtonPressed(VirtualButtonAbstractBehaviour vb) {
-        if (currentState != START_STATE)
-        {
-            buttons[CANCEL].gameObject.SetActive(true);
-            // CancelBtn = Instantiate(prefabBtns[CANCEL]) as GameObject;
-            // CancelBtn.transform.SetParent(this.gameObject.transform);
-        }
 
 		//big if else of each button (through the tags) if vb.compareTag....
 		if (vb.CompareTag ("Zoom")) {
@@ -129,6 +110,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
                 buttons[DONE].gameObject.SetActive(true);
+                buttons[CANCEL].gameObject.SetActive(true);
 
                 thingToManipulate = maze;
 				currentState = ZOOM_STATE;
@@ -147,6 +129,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[ROTATE].gameObject.SetActive(false);
                 buttons[SCALE].gameObject.SetActive(false);
                 buttons[DONE].gameObject.SetActive(false);
+                buttons[CANCEL].gameObject.SetActive(false);
                 buttons[ZOOM].gameObject.SetActive(true);
                 thingToManipulate = null;
                 currentState = START_STATE;
@@ -291,6 +274,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[ROTATE].gameObject.SetActive(false);
                 buttons[SCALE].gameObject.SetActive(false);
                 buttons[DONE].gameObject.SetActive(false);
+                buttons[CANCEL].gameObject.SetActive(false);
                 buttons[ZOOM].gameObject.SetActive(true);
                 thingToManipulate = null;
                 currentState = START_STATE;
@@ -300,6 +284,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[TELEPORT].gameObject.SetActive(false);
                 buttons[MANIPULATOR].gameObject.SetActive(false);
                 buttons[TRANSLATE].gameObject.SetActive(false);
+                buttons[CANCEL].gameObject.SetActive(false);
                 buttons[ZOOM].gameObject.SetActive(true);
                 objSelected = false;
                 currentState = START_STATE;
