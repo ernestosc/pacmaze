@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class UnitScript : MonoBehaviour {
-
+    /*
     public CameraScript cameraScript;
     public ButtonManager buttonManager;
 
@@ -18,8 +18,8 @@ public class UnitScript : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Enter");
-        if((cameraScript.teleportDestination != null && cameraScript.teleportDestination.GetComponent<Collider>() != other))
+        Debug.Log("Enter");
+        /if((cameraScript.teleportDestination != null && cameraScript.teleportDestination.GetComponent<Collider>() != other))
         {
             //Debug.Log("New Unit Colliding");
             (cameraScript.teleportDestination.GetComponent("Halo") as Behaviour).enabled = false;
@@ -56,5 +56,5 @@ public class UnitScript : MonoBehaviour {
             cameraScript.lineRenderer.enabled = false;
         }
 
-    }
+    }*/
 }
