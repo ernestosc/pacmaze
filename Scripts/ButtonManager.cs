@@ -110,7 +110,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             objSelected = false;
         }
 
-        if (doneTeleporting && (currentState == TELEPORT_STATE || currentState == MOVE_STATE))
+        if (doneTeleporting && (currentState == TELEPORT_STATE)
         {
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
@@ -128,7 +128,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 		if (vb.CompareTag ("Zoom")) {
 
 			if (currentState == START_STATE) {
-				
+
 
                 buttons[ZOOM].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
@@ -152,6 +152,14 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[ZOOM].gameObject.SetActive(true);
                 thingToManipulate = null;
                 currentState = START_STATE;
+            }
+            else if (currentState == MOVE_STATE)
+            {
+                buttons[DONE].gameObject.SetActive(false);
+                buttons[MANIPULATOR].gameObject.SetActive(true);
+                buttons[TRANSLATE].gameObject.SetActive(true);
+                buttons[TELEPORT].gameObject.SetActive(true);
+                currentState = SELECTED_STATE;
             }
             else if (currentState == MANIPULATE_STATE)
             {
@@ -223,6 +231,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(false);
                 buttons[TRANSLATE].gameObject.SetActive(false);
                 buttons[TELEPORT].gameObject.SetActive(false);
+                buttons[DONE].gameObject.SetActive(true);
 
                 currentState = MOVE_STATE;
             }
@@ -297,6 +306,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[CANCEL].gameObject.SetActive(false);
                 buttons[ZOOM].gameObject.SetActive(true);
                 objSelected = false;
+                (cookie.GetComponent("Halo") as Behaviour).enabled = false;
                 currentState = START_STATE;
             }
             else if (currentState == MOVE_STATE)

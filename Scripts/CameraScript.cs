@@ -33,7 +33,7 @@ public class CameraScript : MonoBehaviour {
             teleportDestination != null && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0)))
         {
             avatar.transform.position = teleportDestination.transform.position;
-            buttonManager.doneTeleporting = true;
+            if (buttonManager.currentState == buttonManager.TELEPORT_STATE) buttonManager.doneTeleporting = true;
         }
     }
 }

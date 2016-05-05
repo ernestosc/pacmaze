@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class UnitScript : MonoBehaviour {
-    
+
     public CameraScript cameraScript;
     public ButtonManager buttonManager;
 
@@ -18,8 +18,7 @@ public class UnitScript : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-		if ((buttonManager.currentState == buttonManager.TELEPORT_STATE ||
-			buttonManager.currentState == buttonManager.MOVE_STATE) && other.gameObject.CompareTag("Pointer"))
+		if (buttonManager.currentState == buttonManager.TELEPORT_STATE && other.gameObject.CompareTag("Pointer"))
 		{
 			//Debug.Log("Enter");
 			cameraScript.teleportDestination = this.gameObject;
@@ -32,17 +31,30 @@ public class UnitScript : MonoBehaviour {
 			cameraScript.lineRenderer.enabled = true;
 		}
 
-        else if((cameraScript.teleportDestination != null && cameraScript.teleportDestination.GetComponent<Collider>() != other))
+        // else if((cameraScript.teleportDestination != null && cameraScript.teleportDestination.GetComponent<Collider>() != other))
+        // {
+        //     //Debug.Log("New Unit Colliding");
+        //     (cameraScript.teleportDestination.GetComponent("Halo") as Behaviour).enabled = false;
+        //     cameraScript.lineRenderer.enabled = false;
+        // }
+
+        else if (buttonManager.currentState == buttonManager.MOVE_STATE && other.gameObject.CompareTag("Pointer"))
         {
-            //Debug.Log("New Unit Colliding");
-            (cameraScript.teleportDestination.GetComponent("Halo") as Behaviour).enabled = false;
-            cameraScript.lineRenderer.enabled = false;
+                Vector3 dist = cameraScript.avatar.transform.localPosition - this.transform.localPosition;
+                if(dist.magnitude == 1){
+                    cameraScript.teleportDestination = this.gameObject;
+        			(cameraScript.teleportDestination.GetComponent("Halo") as Behaviour).enabled = true;
+        			cameraScript.lineRenderer.SetColors(Color.yellow, Color.yellow);
+        			cameraScript.lineRenderer.SetWidth(.1f, .1f);
+        			cameraScript.lineRenderer.SetVertexCount(2);
+        			cameraScript.lineRenderer.SetPosition(0, cameraScript.avatar.transform.position);
+        			cameraScript.lineRenderer.SetPosition(1, this.gameObject.transform.position);
+        			cameraScript.lineRenderer.enabled = true;
+                }
+
+
         }
 
-        else if (buttonManager.currentState == buttonManager.MOVE_STATE) {
-
-        }
-			
     }
 
     void OnTriggerExit(Collider other)
