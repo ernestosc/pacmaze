@@ -7,9 +7,11 @@ public class CameraScript : MonoBehaviour {
     public ButtonManager buttonManager;
     public GameObject avatar;
     public GameObject teleportDestination;
+    public GameObject currentLocation;
     public LineRenderer lineRenderer;
     public GameObject workspace;
     public GameObject clone;
+    public Text wrong;
 
     GameObject obs;
 
@@ -37,11 +39,52 @@ public class CameraScript : MonoBehaviour {
             buttonManager.currentState == buttonManager.MOVE_STATE) &&
             teleportDestination != null && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0)))
         {
-
-            if (obs != null) Destroy(obs);
-            avatar.transform.position = teleportDestination.transform.position;
-            for(int i = 0; i < teleportDestination.transform.childCount; ++i){
+            bool moved = false;
+            bool currentLocHasObstacle = false;
+            bool teleportDestHasObstacle = false;
+            for (int i = 0; i < teleportDestination.transform.childCount; i++)
+            {
                 if (teleportDestination.transform.GetChild(i).CompareTag("Obstacle"))
+                {
+                    teleportDestHasObstacle = true;
+                    break;
+                }
+            }
+            for (int i = 0; i < currentLocation.transform.childCount; i++)
+            {
+                if (currentLocation.transform.GetChild(i).CompareTag("Obstacle"))
+                {
+                    currentLocHasObstacle = true;
+                    break;
+                }
+            }
+
+            if (teleportDestHasObstacle && currentLocHasObstacle)
+            {
+                if(avatar.transform.localScale.x < .25f)
+                {
+                    avatar.transform.position = teleportDestination.transform.position;
+                    currentLocation = teleportDestination;
+                    if (obs != null) Destroy(obs);
+                    moved = true;
+                    wrong.text = "";
+                }
+                else
+                {
+                    wrong.text = "Can't fit through the obstacle!";
+                }
+            } else
+            {
+                avatar.transform.position = teleportDestination.transform.position;
+                currentLocation = teleportDestination;
+                if (obs != null) Destroy(obs);
+                moved = true;
+                wrong.text = "";
+            }
+
+            for (int i = 0; i < teleportDestination.transform.childCount; ++i)
+            {
+                if (moved && teleportDestination.transform.GetChild(i).CompareTag("Obstacle"))
                 {
                     Vector3 obsPos = teleportDestination.transform.GetChild(i).position;
                     obs = Instantiate(teleportDestination.transform.GetChild(i).gameObject) as GameObject;
@@ -52,10 +95,14 @@ public class CameraScript : MonoBehaviour {
                     break;
                 }
             }
-            (teleportDestination.GetComponent("Halo") as Behaviour).enabled = false;
-            lineRenderer.enabled = false;
-            teleportDestination = null;
-            if (buttonManager.currentState == buttonManager.TELEPORT_STATE) buttonManager.doneTeleporting = true;
+
+            if (moved)
+            {
+                (teleportDestination.GetComponent("Halo") as Behaviour).enabled = false;
+                lineRenderer.enabled = false;
+                teleportDestination = null;
+                if (buttonManager.currentState == buttonManager.TELEPORT_STATE) buttonManager.doneTeleporting = true;
+            }
         }
     }
 }

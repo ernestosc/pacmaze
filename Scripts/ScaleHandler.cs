@@ -29,11 +29,11 @@ public class ScaleHandler : MonoBehaviour
             Vector3 localScale = buttonManager.thingToManipulate.transform.localScale;
             if (buttonManager.thingToManipulate == buttonManager.cookie)
             {
-                float scale = Mathf.Min(Mathf.Max(localScale.x + (deltaPos.y * 0.2f), .1f), .3f);
+                float scale = Mathf.Min(Mathf.Max(localScale.x + (deltaPos.y * 0.1f), .1f), .3f);
                 buttonManager.cookie.transform.localScale = new Vector3(scale, scale, scale);
                 if (buttonManager.manipulateClone) clone.transform.localScale = new Vector3(scale, scale, scale);
             } else {
-                float scale = Mathf.Min(Mathf.Max(localScale.x + (deltaPos.y * 0.2f), .025f), .12f);
+                float scale = Mathf.Min(Mathf.Max(localScale.x + (deltaPos.y * 0.1f), .025f), .12f);
                 buttonManager.thingToManipulate.transform.localScale = new Vector3(scale, scale, scale);
             }
 

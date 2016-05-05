@@ -118,11 +118,15 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 		else if (currentState == SCALE_STATE) {
 			state.text = "Move wand in and out to scale. Tap to finish.";
 		}
-		else if (currentState == MOVE_STATE) {
+        else if (currentState == MANIPULATE_STATE)
+        {
+            state.text = "Select an action";
+        }
+        else if (currentState == MOVE_STATE) {
 			if (cameraScript.teleportDestination != null) {
 				state.text = "Tap to move.";
 			} else {
-				state.text = "Hover on adjacant cube to man.";
+				state.text = "Hover on adjacent cube to move.";
 			}
 		}
 		else if (currentState == TELEPORT_STATE) {
