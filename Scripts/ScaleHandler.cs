@@ -23,10 +23,10 @@ public class ScaleHandler : MonoBehaviour
         deltaPos = pointer.transform.position - pos;
         pos = pointer.transform.position;
 
-        if (buttonManager.currentState == buttonManager.SCALE_STATE)
+        if (buttonManager.currentState == buttonManager.SCALE_STATE && buttonManager.thingToManipulate != null)
         {
             Vector3 localScale = buttonManager.thingToManipulate.transform.localScale;
-            buttonManager.thingToManipulate.transform.localScale = 
+            buttonManager.thingToManipulate.transform.localScale =
                 new Vector3(localScale.x + deltaPos.y, localScale.y + deltaPos.y, localScale.z + deltaPos.y);
 
         }

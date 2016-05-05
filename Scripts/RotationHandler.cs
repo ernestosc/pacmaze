@@ -24,17 +24,17 @@ public class RotationHandler : MonoBehaviour
         deltaPos = pointer.transform.position - pos;
         pos = pointer.transform.position;
 
-        if (buttonManager.currentState == buttonManager.XROT_STATE)
+        if (buttonManager.currentState == buttonManager.XROT_STATE && buttonManager.thingToManipulate != null)
         {
             buttonManager.thingToManipulate.transform.Rotate(deltaPos.x * Time.deltaTime, 0, 0);
             if (buttonManager.manipulateClone) clone.transform.Rotate(deltaPos.x * Time.deltaTime, 0, 0);
         }
-        else if (buttonManager.currentState == buttonManager.YROT_STATE)
+        else if (buttonManager.currentState == buttonManager.YROT_STATE && buttonManager.thingToManipulate != null)
         {
             buttonManager.thingToManipulate.transform.Rotate(0, deltaPos.y * Time.deltaTime, 0);
             if (buttonManager.manipulateClone) clone.transform.Rotate(0, deltaPos.y * Time.deltaTime, 0);
         }
-        else if (buttonManager.currentState == buttonManager.ZROT_STATE)
+        else if (buttonManager.currentState == buttonManager.ZROT_STATE && buttonManager.thingToManipulate != null)
         {
             buttonManager.thingToManipulate.transform.Rotate(0, 0, deltaPos.z * Time.deltaTime);
             if (buttonManager.manipulateClone) clone.transform.Rotate(0, 0, deltaPos.z * Time.deltaTime);

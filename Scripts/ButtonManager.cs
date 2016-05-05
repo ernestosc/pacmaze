@@ -5,32 +5,31 @@ using Vuforia;
 public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 
 	//constants for states
-	public int START_STATE = 0;
-    public int ZOOM_STATE = 1;
-    public int SELECTED_STATE = 2;
-    public int MOVE_STATE = 3;
-    public int MANIPULATE_STATE = 4;
-    public int SCALE_STATE = 5;
-    public int ROTATION_STATE = 6;
-    public int XROT_STATE = 7;
-    public int YROT_STATE = 8;
-    public int ZROT_STATE = 9;
-    public int TELEPORT_STATE = 10;
+	public string START_STATE = "START";
+    public string ZOOM_STATE = "MAZE";
+    public string SELECTED_STATE = "SELECTED";
+    public string MOVE_STATE = "TRANSLATE";
+    public string MANIPULATE_STATE = "MANIPULATE";
+    public string SCALE_STATE = "SCALE";
+    public string ROTATION_STATE = "ROTATE";
+    public string XROT_STATE = "X";
+    public string YROT_STATE = "Y";
+    public string ZROT_STATE = "Z";
+    public string TELEPORT_STATE = "TELEPORT";
 
     const int ZOOM = 0;
-	const int UNDO = 1;
-	const int DONE = 2;
-	const int TELEPORT = 3;
-	const int MANIPULATOR = 4;
-	const int TRANSLATE = 5;
-	const int SCALE = 6;
-	const int ROTATE = 7;
-	const int XROT = 8;
-	const int YROT = 9;
-	const int ZROT = 10;
-	const int CANCEL = 11;
+	const int DONE = 1;
+	const int TELEPORT = 2;
+	const int MANIPULATOR = 3;
+	const int TRANSLATE = 4;
+	const int SCALE = 5;
+	const int ROTATE = 6;
+	const int XROT = 7;
+	const int YROT = 8;
+	const int ZROT = 9;
+	const int CANCEL = 10;
 
-    public int currentState;
+    public string currentState;
 
     public GameObject maze;
     public GameObject cookie;
@@ -45,12 +44,26 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     public VirtualButtonBehaviour[] buttons;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        START_STATE = "START";
+        ZOOM_STATE = "MAZE";
+        SELECTED_STATE = "SELECTED";
+        MOVE_STATE = "TRANSLATE";
+        MANIPULATE_STATE = "MANIPULATE";
+        SCALE_STATE = "SCALE";
+        ROTATION_STATE = "ROTATE";
+        XROT_STATE = "X";
+        YROT_STATE = "Y";
+        ZROT_STATE = "Z";
+        TELEPORT_STATE = "TELEPORT";
 
-		currentState = START_STATE;
+        currentState = START_STATE;
+
         objSelected = false;
         doneTeleporting = false;
         manipulateClone = false;
+        thingToManipulate = null;
 
         // Search for all Children from this ImageTarget with type VirtualButtonBehaviour
         //vbs = GetComponentsInChildren<VirtualButtonBehaviour>();
@@ -69,14 +82,15 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 		// ZoomBtn = vbs [0].gameObject;
 	}
 
-	// Update is called once per frame
-	void Update () {
-
-		// vbs = GetComponentsInChildren<VirtualButtonBehaviour>();
-		// for (int i = 0; i < vbs.Length; ++i) {
-		// 	// Register with the virtual buttons TrackableBehaviour
-		// 	vbs[i].RegisterEventHandler(this);
+    // Update is called once per frame
+    void Update()
+    {
+        // vbs = GetComponentsInChildren<VirtualButtonBehaviour>();
+        // for (int i = 0; i < vbs.Length; ++i) {
+        // 	// Register with the virtual buttons TrackableBehaviour
+        // 	vbs[i].RegisterEventHandler(this);
         // }
+        Debug.Log(currentState.ToString());
 
         if (objSelected && currentState == START_STATE)
         {
@@ -119,11 +133,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 
 			}
 
-
-		} else if (vb.CompareTag ("Undo")) {
-
-
-
 		} else if (vb.CompareTag ("Done")) {
 
             if (currentState == ZOOM_STATE)
@@ -159,14 +168,12 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             }
             else if (currentState == SCALE_STATE)
             {
-                buttons[UNDO].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
                 currentState = MANIPULATE_STATE;
             }
-            else if (currentState == XROT_STATE || currentState == XROT_STATE || currentState == XROT_STATE)
+            else if (currentState == XROT_STATE || currentState == YROT_STATE || currentState == ZROT_STATE)
             {
-                buttons[UNDO].gameObject.SetActive(false);
                 buttons[XROT].gameObject.SetActive(true);
                 buttons[YROT].gameObject.SetActive(true);
                 buttons[ZROT].gameObject.SetActive(true);
@@ -219,8 +226,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[XROT].gameObject.SetActive(false);
                 buttons[YROT].gameObject.SetActive(false);
                 buttons[ZROT].gameObject.SetActive(false);
-                buttons[UNDO].gameObject.SetActive(true);
-
                 currentState = XROT_STATE;
             }
 
@@ -231,8 +236,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[XROT].gameObject.SetActive(false);
                 buttons[YROT].gameObject.SetActive(false);
                 buttons[ZROT].gameObject.SetActive(false);
-                buttons[UNDO].gameObject.SetActive(true);
-
                 currentState = YROT_STATE;
             }
 
@@ -243,8 +246,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[XROT].gameObject.SetActive(false);
                 buttons[YROT].gameObject.SetActive(false);
                 buttons[ZROT].gameObject.SetActive(false);
-                buttons[UNDO].gameObject.SetActive(true);
-
                 currentState = ZROT_STATE;
             }
 
@@ -254,8 +255,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             {
                 buttons[ROTATE].gameObject.SetActive(false);
                 buttons[SCALE].gameObject.SetActive(false);
-                buttons[UNDO].gameObject.SetActive(true);
-
                 currentState = SCALE_STATE;
             }
 
@@ -325,16 +324,14 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             }
             else if (currentState == SCALE_STATE)
             {
-                buttons[UNDO].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
 				if (thingToManipulate == cookie)
 					currentState = MANIPULATE_STATE;
 				else if (thingToManipulate == maze)
 					currentState = ZOOM_STATE;            }
-            else if (currentState == XROT_STATE || currentState == XROT_STATE || currentState == XROT_STATE)
+            else if (currentState == XROT_STATE || currentState == YROT_STATE || currentState == ZROT_STATE)
             {
-                buttons[UNDO].gameObject.SetActive(false);
                 buttons[XROT].gameObject.SetActive(true);
                 buttons[YROT].gameObject.SetActive(true);
                 buttons[ZROT].gameObject.SetActive(true);
