@@ -43,9 +43,12 @@ public class CameraScript : MonoBehaviour {
             for(int i = 0; i < teleportDestination.transform.childCount; ++i){
                 if (teleportDestination.transform.GetChild(i).CompareTag("Obstacle"))
                 {
-                    Vector3 obsPos = teleportDestination.transform.GetChild(i).transform.position;
+                    Vector3 obsPos = teleportDestination.transform.GetChild(i).position;
                     obs = Instantiate(teleportDestination.transform.GetChild(i).gameObject) as GameObject;
                     obs.transform.parent = workspace.transform;
+                    obs.transform.localPosition = clone.transform.localPosition + (obsPos - avatar.transform.position);
+                    obs.transform.localScale = clone.transform.localScale;
+                    obs.transform.localRotation = teleportDestination.transform.GetChild(i).localRotation;
                     break;
                 }
             }
