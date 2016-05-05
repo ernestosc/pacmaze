@@ -18,7 +18,8 @@ public class UnitScript : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-		if (buttonManager.currentState == buttonManager.TELEPORT_STATE && other.gameObject.CompareTag("Pointer"))
+        if (buttonManager.currentState == buttonManager.TELEPORT_STATE && other.gameObject.CompareTag("Pointer")
+            && !this.gameObject.CompareTag("DeadEnd") && cameraScript.teleportDestination == null)
 		{
 			//Debug.Log("Enter");
 			cameraScript.teleportDestination = this.gameObject;
@@ -38,10 +39,11 @@ public class UnitScript : MonoBehaviour {
         //     cameraScript.lineRenderer.enabled = false;
         // }
 
-        else if (buttonManager.currentState == buttonManager.MOVE_STATE && other.gameObject.CompareTag("Pointer"))
+        else if (buttonManager.currentState == buttonManager.MOVE_STATE && other.gameObject.CompareTag("Pointer") && cameraScript.teleportDestination == null)
         {
-                Vector3 dist = cameraScript.avatar.transform.localPosition - this.transform.localPosition;
-                if(dist.magnitude == 1){
+            Vector3 dist = cameraScript.avatar.transform.localPosition - this.transform.localPosition;
+            buttonManager.state.text = "" + dist;
+            if(dist.magnitude >= 0.95 && dist.magnitude <= 1.05){
                     cameraScript.teleportDestination = this.gameObject;
         			(cameraScript.teleportDestination.GetComponent("Halo") as Behaviour).enabled = true;
         			cameraScript.lineRenderer.SetColors(Color.yellow, Color.yellow);
@@ -60,9 +62,9 @@ public class UnitScript : MonoBehaviour {
     void OnTriggerExit(Collider other)
     {
         if ((buttonManager.currentState == buttonManager.TELEPORT_STATE ||
-            buttonManager.currentState == buttonManager.MOVE_STATE) && other.gameObject.CompareTag("Pointer"))
+            buttonManager.currentState == buttonManager.MOVE_STATE) && other.gameObject.CompareTag("Pointer") && cameraScript.teleportDestination == this.gameObject)
         {
-            (cameraScript.teleportDestination.GetComponent("Halo") as Behaviour).enabled = false;
+            (GetComponent("Halo") as Behaviour).enabled = false;
             cameraScript.teleportDestination = null;
             cameraScript.lineRenderer.enabled = false;
         }
