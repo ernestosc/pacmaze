@@ -107,7 +107,8 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 			state.text = "Touch man with wand or press 'MAZE' on remote.";
 		}
 		else if (currentState == ZOOM_STATE || currentState == SELECTED_STATE) {
-			state.text = "Select an action.";
+			state.text = "Select an action ";
+            if (currentState == ZOOM_STATE) state.text += "to transform maze.";
 		}
 		else if (currentState == ROTATION_STATE) {
 			state.text = "Pick an axis to rotate.";
