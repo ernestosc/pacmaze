@@ -6,6 +6,7 @@ public class PointerHandler : MonoBehaviour {
 
     public ButtonManager buttonManager;
     public Text winningText;
+    public Text wrongText;
 
     // Use this for initialization
     void Start () {
@@ -27,7 +28,7 @@ public class PointerHandler : MonoBehaviour {
         if (other.gameObject.CompareTag("House"))
         {
             Destroy(other.gameObject);
-			winningText.text = "Wrong house!";
+			wrongText.text = "WRONG HOUSE";
            // Debug.Log("Wrong House!");
         }
         else if (other.gameObject.CompareTag("TargetHouse"))
@@ -40,7 +41,7 @@ public class PointerHandler : MonoBehaviour {
     }
 	void OnTriggerExit(Collider other){
 		if(other.gameObject.CompareTag("House")){
-			winningText.text = "";
+			wrongText.text = "";
 		}
 	}
 
