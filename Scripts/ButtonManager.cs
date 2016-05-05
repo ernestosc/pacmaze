@@ -43,6 +43,8 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     public bool manipulateClone;
     public Text state;
     public Texture2D deselect;
+    public Texture2D done;
+    public GameObject donebutton;
 
     public CameraScript cameraScript;
     //public GameObject[] prefabBtns;
@@ -111,14 +113,14 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 			state.text = "Pick an axis to rotate.";
 		}
 		else if (currentState == XROT_STATE || currentState == YROT_STATE || currentState== ZROT_STATE) {
-			state.text = "Move wand up and down to rotate.";
+			state.text = "Move wand up and down to rotate. Tap to finish.";
 		}
 		else if (currentState == SCALE_STATE) {
-			state.text = "Move wand in and out to scale.";
+			state.text = "Move wand in and out to scale. Tap to finish.";
 		}
 		else if (currentState == MOVE_STATE) {
 			if (cameraScript.teleportDestination != null) {
-				state.text = "Tap to move..";
+				state.text = "Tap to move.";
 			} else {
 				state.text = "Hover on adjacant cube to man.";
 			}
@@ -139,7 +141,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
             buttons[CANCEL].gameObject.SetActive(true);
-            buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
+            donebutton.GetComponent<Renderer>().material.mainTexture = deselect;
             currentState = SELECTED_STATE;
             objSelected = false;
         }
@@ -151,7 +153,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             buttons[TRANSLATE].gameObject.SetActive(true);
             buttons[TELEPORT].gameObject.SetActive(true);
             buttons[CANCEL].gameObject.SetActive(true);
-            buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
+            donebutton.GetComponent<Renderer>().material.mainTexture = deselect;
             currentState = SELECTED_STATE;
             doneTeleporting = false;
         }
@@ -208,6 +210,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[TELEPORT].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
+                donebutton.GetComponent<Renderer>().material.mainTexture = done;
                 thingToManipulate = cookie;
                 manipulateClone = true;
                 currentState = MANIPULATE_STATE;
@@ -233,6 +236,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(false);
                 buttons[TRANSLATE].gameObject.SetActive(false);
                 buttons[TELEPORT].gameObject.SetActive(false);
+                donebutton.GetComponent<Renderer>().material.mainTexture = done;
 
                 currentState = MOVE_STATE;
             }
@@ -308,6 +312,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(false);
                 buttons[TRANSLATE].gameObject.SetActive(false);
                 buttons[CANCEL].gameObject.SetActive(false);
+                donebutton.GetComponent<Renderer>().material.mainTexture = done;
                 buttons[ZOOM].gameObject.SetActive(true);
                 objSelected = false;
                 (cookie.GetComponent("Halo") as Behaviour).enabled = false;
@@ -318,7 +323,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(true);
                 buttons[TRANSLATE].gameObject.SetActive(true);
                 buttons[TELEPORT].gameObject.SetActive(true);
-                buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
+                donebutton.GetComponent<Renderer>().material.mainTexture = deselect;
                 currentState = SELECTED_STATE;
             }
             else if (currentState == MANIPULATE_STATE)
@@ -328,7 +333,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(true);
                 buttons[TRANSLATE].gameObject.SetActive(true);
                 buttons[TELEPORT].gameObject.SetActive(true);
-                buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
+                donebutton.GetComponent<Renderer>().material.mainTexture = deselect;
                 //thingToManipulate = null;
                 manipulateClone = false;
                 currentState = SELECTED_STATE;
