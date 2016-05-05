@@ -42,6 +42,7 @@ public class CameraScript : MonoBehaviour {
             bool moved = false;
             bool currentLocHasObstacle = false;
             bool teleportDestHasObstacle = false;
+            GameObject obstacle = null; 
             for (int i = 0; i < teleportDestination.transform.childCount; i++)
             {
                 if (teleportDestination.transform.GetChild(i).CompareTag("Obstacle"))
@@ -55,13 +56,14 @@ public class CameraScript : MonoBehaviour {
                 if (currentLocation.transform.GetChild(i).CompareTag("Obstacle"))
                 {
                     currentLocHasObstacle = true;
+                    obstacle = currentLocation.transform.GetChild(i).gameObject;
                     break;
                 }
             }
 
             if (teleportDestHasObstacle && currentLocHasObstacle)
             {
-                if(avatar.transform.localScale.x < .25f)
+                if (avatar.transform.localScale.x <= .2f && Mathf.Abs(Vector3.Dot(avatar.transform.forward, obstacle.transform.forward)) == 1)
                 {
                     avatar.transform.position = teleportDestination.transform.position;
                     currentLocation = teleportDestination;
@@ -71,7 +73,7 @@ public class CameraScript : MonoBehaviour {
                 }
                 else
                 {
-                    wrong.text = "Can't fit through the obstacle!";
+                    wrong.text = "Can't fit through the obstacle! ";
                 }
             } else
             {
