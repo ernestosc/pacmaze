@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CollisionScript : MonoBehaviour {
 
-    int i = 0;
+    //int i = 0;
     private Vector3 deltaPos;
     private Vector3 pos;
     public GameObject obj;

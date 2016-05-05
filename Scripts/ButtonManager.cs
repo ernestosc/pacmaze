@@ -84,6 +84,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             buttons[TELEPORT].gameObject.SetActive(true);
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
+			buttons[CANCEL].gameObject.SetActive(true);
             currentState = SELECTED_STATE;
             objSelected = false;
         }
@@ -93,6 +94,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
             buttons[TELEPORT].gameObject.SetActive(true);
+			if (currentState == TELEPORT_STATE) buttons[CANCEL].gameObject.SetActive(true);
             currentState = SELECTED_STATE;
             doneTeleporting = false;
         }
@@ -264,6 +266,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(false);
                 buttons[TRANSLATE].gameObject.SetActive(false);
                 buttons[TELEPORT].gameObject.SetActive(false);
+				buttons[CANCEL].gameObject.SetActive(false);
                 currentState = TELEPORT_STATE;
             }
 
@@ -315,15 +318,20 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[ZROT].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
-                currentState = MANIPULATE_STATE;
+				if (thingToManipulate == cookie)
+					currentState = MANIPULATE_STATE;
+				else if (thingToManipulate == maze)
+					currentState = ZOOM_STATE;
             }
             else if (currentState == SCALE_STATE)
             {
                 buttons[UNDO].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
-                currentState = MANIPULATE_STATE;
-            }
+				if (thingToManipulate == cookie)
+					currentState = MANIPULATE_STATE;
+				else if (thingToManipulate == maze)
+					currentState = ZOOM_STATE;            }
             else if (currentState == XROT_STATE || currentState == XROT_STATE || currentState == XROT_STATE)
             {
                 buttons[UNDO].gameObject.SetActive(false);

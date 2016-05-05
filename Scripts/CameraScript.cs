@@ -18,15 +18,15 @@ public class CameraScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (buttonManager.currentState == buttonManager.TELEPORT_STATE ||
-            buttonManager.currentState == buttonManager.MOVE_STATE)
-        {
-            avatar.GetComponent<CapsuleCollider>().enabled = false;
-            //avatar.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
-        } else
-        {
-            avatar.GetComponent<CapsuleCollider>().enabled = true;
-        }
+//        if (buttonManager.currentState == buttonManager.TELEPORT_STATE ||
+//            buttonManager.currentState == buttonManager.MOVE_STATE)
+//        {
+//            avatar.GetComponent<CapsuleCollider>().enabled = false;
+//            //avatar.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
+//        } else
+//        {
+//            avatar.GetComponent<CapsuleCollider>().enabled = true;
+//        }
 
         if ((buttonManager.currentState == buttonManager.TELEPORT_STATE ||
             buttonManager.currentState == buttonManager.MOVE_STATE) &&
