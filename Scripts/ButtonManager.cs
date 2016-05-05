@@ -115,14 +115,14 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
             buttons[TELEPORT].gameObject.SetActive(true);
-			if (currentState == TELEPORT_STATE) buttons[CANCEL].gameObject.SetActive(true);
+			buttons[CANCEL].gameObject.SetActive(true);
             currentState = SELECTED_STATE;
             doneTeleporting = false;
         }
 
         if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0))
         {
-            
+
             if (currentState == SCALE_STATE)
             {
                 buttons[ROTATE].gameObject.SetActive(true);
