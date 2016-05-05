@@ -9,6 +9,7 @@ public class ScaleHandler : MonoBehaviour
     private Vector3 deltaPos;
     private Vector3 pos;
     public GameObject pointer;
+    public GameObject clone;
 
     // Use this for initialization
     void Start()
@@ -26,8 +27,15 @@ public class ScaleHandler : MonoBehaviour
         if (buttonManager.currentState == buttonManager.SCALE_STATE && buttonManager.thingToManipulate != null)
         {
             Vector3 localScale = buttonManager.thingToManipulate.transform.localScale;
-            buttonManager.thingToManipulate.transform.localScale =
-                new Vector3(localScale.x + deltaPos.y, localScale.y + deltaPos.y, localScale.z + deltaPos.y);
+            if (buttonManager.thingToManipulate == buttonManager.cookie)
+            {
+                float scale = Mathf.Min(Mathf.Max(localScale.x + (deltaPos.y * 0.2f), .1f), .3f);
+                buttonManager.cookie.transform.localScale = new Vector3(scale, scale, scale);
+                if (buttonManager.manipulateClone) clone.transform.localScale = new Vector3(scale, scale, scale);
+            } else {
+                float scale = Mathf.Min(Mathf.Max(localScale.x + (deltaPos.y * 0.2f), .025f), .12f);
+                buttonManager.thingToManipulate.transform.localScale = new Vector3(scale, scale, scale);
+            }
 
         }
 

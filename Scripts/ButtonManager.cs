@@ -20,7 +20,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     public string TELEPORT_STATE = "TELEPORT";
 
     const int ZOOM = 0;
-	const int DONE = 1;
+	const int CANCEL = 1;
 	const int TELEPORT = 2;
 	const int MANIPULATOR = 3;
 	const int TRANSLATE = 4;
@@ -29,7 +29,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 	const int XROT = 7;
 	const int YROT = 8;
 	const int ZROT = 9;
-	const int CANCEL = 10;
 
     public string currentState;
 
@@ -110,7 +109,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             objSelected = false;
         }
 
-        if (doneTeleporting && (currentState == TELEPORT_STATE)
+        if (doneTeleporting && currentState == TELEPORT_STATE)
         {
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
@@ -118,6 +117,24 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 			if (currentState == TELEPORT_STATE) buttons[CANCEL].gameObject.SetActive(true);
             currentState = SELECTED_STATE;
             doneTeleporting = false;
+        }
+
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0)) {
+            if (currentState == SCALE_STATE)
+            {
+                buttons[ROTATE].gameObject.SetActive(true);
+                buttons[SCALE].gameObject.SetActive(true);
+                currentState = MANIPULATE_STATE;
+            }
+            else if (currentState == ROTATION_STATE)
+            {
+                buttons[XROT].gameObject.SetActive(false);
+                buttons[YROT].gameObject.SetActive(false);
+                buttons[ZROT].gameObject.SetActive(false);
+                buttons[ROTATE].gameObject.SetActive(true);
+                buttons[SCALE].gameObject.SetActive(true);
+                currentState = MANIPULATE_STATE;
+            }
         }
 
     }
@@ -133,68 +150,12 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[ZOOM].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
-                buttons[DONE].gameObject.SetActive(true);
                 buttons[CANCEL].gameObject.SetActive(true);
 
                 thingToManipulate = maze;
 				currentState = ZOOM_STATE;
 
 			}
-
-		} else if (vb.CompareTag ("Done")) {
-
-            if (currentState == ZOOM_STATE)
-            {
-                buttons[ROTATE].gameObject.SetActive(false);
-                buttons[SCALE].gameObject.SetActive(false);
-                buttons[DONE].gameObject.SetActive(false);
-                buttons[CANCEL].gameObject.SetActive(false);
-                buttons[ZOOM].gameObject.SetActive(true);
-                thingToManipulate = null;
-                currentState = START_STATE;
-            }
-            else if (currentState == MOVE_STATE)
-            {
-                buttons[DONE].gameObject.SetActive(false);
-                buttons[MANIPULATOR].gameObject.SetActive(true);
-                buttons[TRANSLATE].gameObject.SetActive(true);
-                buttons[TELEPORT].gameObject.SetActive(true);
-                currentState = SELECTED_STATE;
-            }
-            else if (currentState == MANIPULATE_STATE)
-            {
-                buttons[ROTATE].gameObject.SetActive(false);
-                buttons[SCALE].gameObject.SetActive(false);
-                buttons[DONE].gameObject.SetActive(false);
-                buttons[MANIPULATOR].gameObject.SetActive(true);
-                buttons[TRANSLATE].gameObject.SetActive(true);
-                buttons[TELEPORT].gameObject.SetActive(true);
-                thingToManipulate = null;
-                manipulateClone = false;
-                currentState = SELECTED_STATE;
-            }
-            else if (currentState == ROTATION_STATE)
-            {
-                buttons[XROT].gameObject.SetActive(false);
-                buttons[YROT].gameObject.SetActive(false);
-                buttons[ZROT].gameObject.SetActive(false);
-                buttons[ROTATE].gameObject.SetActive(true);
-                buttons[SCALE].gameObject.SetActive(true);
-                currentState = MANIPULATE_STATE;
-            }
-            else if (currentState == SCALE_STATE)
-            {
-                buttons[ROTATE].gameObject.SetActive(true);
-                buttons[SCALE].gameObject.SetActive(true);
-                currentState = MANIPULATE_STATE;
-            }
-            else if (currentState == XROT_STATE || currentState == YROT_STATE || currentState == ZROT_STATE)
-            {
-                buttons[XROT].gameObject.SetActive(true);
-                buttons[YROT].gameObject.SetActive(true);
-                buttons[ZROT].gameObject.SetActive(true);
-                currentState = ROTATION_STATE;
-            }
 
 		} else if (vb.CompareTag ("Manipulator")) {
 
@@ -205,7 +166,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[TELEPORT].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);
                 buttons[SCALE].gameObject.SetActive(true);
-                buttons[DONE].gameObject.SetActive(true);
                 thingToManipulate = cookie;
                 manipulateClone = true;
                 currentState = MANIPULATE_STATE;
@@ -231,7 +191,6 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(false);
                 buttons[TRANSLATE].gameObject.SetActive(false);
                 buttons[TELEPORT].gameObject.SetActive(false);
-                buttons[DONE].gameObject.SetActive(true);
 
                 currentState = MOVE_STATE;
             }
@@ -292,10 +251,9 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             {
                 buttons[ROTATE].gameObject.SetActive(false);
                 buttons[SCALE].gameObject.SetActive(false);
-                buttons[DONE].gameObject.SetActive(false);
                 buttons[CANCEL].gameObject.SetActive(false);
                 buttons[ZOOM].gameObject.SetActive(true);
-                thingToManipulate = null;
+                //thingToManipulate = null;
                 currentState = START_STATE;
             }
             else if (currentState == SELECTED_STATE)
@@ -320,11 +278,10 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             {
                 buttons[ROTATE].gameObject.SetActive(false);
                 buttons[SCALE].gameObject.SetActive(false);
-                buttons[DONE].gameObject.SetActive(false);
                 buttons[MANIPULATOR].gameObject.SetActive(true);
                 buttons[TRANSLATE].gameObject.SetActive(true);
                 buttons[TELEPORT].gameObject.SetActive(true);
-                thingToManipulate = null;
+                //thingToManipulate = null;
                 manipulateClone = false;
                 currentState = SELECTED_STATE;
             }
