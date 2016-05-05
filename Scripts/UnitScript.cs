@@ -42,7 +42,7 @@ public class UnitScript : MonoBehaviour {
         else if (buttonManager.currentState == buttonManager.MOVE_STATE && other.gameObject.CompareTag("Pointer") && cameraScript.teleportDestination == null)
         {
             Vector3 dist = cameraScript.avatar.transform.localPosition - this.transform.localPosition;
-            buttonManager.state.text = "" + dist;
+            
             if(dist.magnitude >= 0.95 && dist.magnitude <= 1.05){
                     cameraScript.teleportDestination = this.gameObject;
         			(cameraScript.teleportDestination.GetComponent("Halo") as Behaviour).enabled = true;

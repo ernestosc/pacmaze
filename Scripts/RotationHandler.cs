@@ -28,7 +28,6 @@ public class RotationHandler : MonoBehaviour
 
         if (buttonManager.currentState == buttonManager.XROT_STATE && buttonManager.thingToManipulate != null)
         {
-            buttonManager.state.text = "" + deltaPos.y;
             if (Mathf.Abs(deltaPos.y) > 0.5)
             {
                 pt = buttonManager.manipulateClone ? buttonManager.thingToManipulate.transform.position : center.transform.position;

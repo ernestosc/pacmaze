@@ -43,6 +43,8 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     public bool manipulateClone;
 	public Text state;
 
+
+	public CameraScript cameraScript;
     //public GameObject[] prefabBtns;
     public VirtualButtonBehaviour[] buttons;
 
@@ -95,8 +97,37 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
         // }
         Debug.Log(currentState.ToString());
 
+
+		//GUI feedback messages/hints
 		if (currentState == START_STATE) {
-			state.text = "Touch cookie or press 'Maze'.";
+			state.text = "Touch man with wand or press 'MAZE' on remote.";
+		}
+		else if (currentState == ZOOM_STATE || currentState == SELECTED_STATE) {
+			state.text = "Select an action.";
+		}
+		else if (currentState == ROTATION_STATE) {
+			state.text = "Pick an axis to rotate.";
+		}
+		else if (currentState == XROT_STATE || currentState == YROT_STATE || currentState== ZROT_STATE) {
+			state.text = "Move wand up and down to rotate.";
+		}
+		else if (currentState == SCALE_STATE) {
+			state.text = "Move wand in and out to scale.";
+		}
+		else if (currentState == MOVE_STATE) {
+			if (cameraScript.teleportDestination != null) {
+				state.text = "Tap to move..";
+			} else {
+				state.text = "Hover on adjacant cube to man.";
+			}
+		}
+		else if (currentState == TELEPORT_STATE) {
+			if (cameraScript.teleportDestination != null) {
+				state.text = "Tap to teleport.";
+			}
+			else{
+				state.text = "Hover on any cube.";
+			}
 		}
 
         if (objSelected && currentState == START_STATE)

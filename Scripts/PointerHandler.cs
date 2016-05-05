@@ -27,14 +27,21 @@ public class PointerHandler : MonoBehaviour {
         if (other.gameObject.CompareTag("House"))
         {
             Destroy(other.gameObject);
-            Debug.Log("Wrong House!");
+			winningText.text = "Wrong house!";
+           // Debug.Log("Wrong House!");
         }
         else if (other.gameObject.CompareTag("TargetHouse"))
         {
-            winningText.text = "YOU WON!";
-			buttonManager.state.text = "Game over";
-            Debug.Log("Winner!");
+            winningText.text = "YOU WIN!";
+			//buttonManager.state.text = "Game over";
+           // Debug.Log("Winner!");
         }
+
     }
+	void OnTriggerExit(Collider other){
+		if(other.gameObject.CompareTag("House")){
+			winningText.text = "";
+		}
+	}
 
 }
