@@ -28,50 +28,47 @@ public class RotationHandler : MonoBehaviour
 
         if (buttonManager.currentState == buttonManager.XROT_STATE && buttonManager.thingToManipulate != null)
         {
-            if (Mathf.Abs(deltaPos.y) > 0.5)
+            pt = buttonManager.manipulateClone ? buttonManager.thingToManipulate.transform.position : center.transform.position;
+            if (buttonManager.manipulateClone)
             {
-                pt = buttonManager.manipulateClone ? buttonManager.thingToManipulate.transform.position : center.transform.position;
-                if (buttonManager.manipulateClone)
-                {
+                if (Mathf.Abs(deltaPos.y) > 0.5) {
                     buttonManager.thingToManipulate.transform.RotateAround(pt, buttonManager.thingToManipulate.transform.right, Mathf.Sign(deltaPos.y) * 90);
                     clone.transform.RotateAround(clone.transform.position, clone.transform.right, Mathf.Sign(deltaPos.y) * 90);
                 }
-                else
-                {
-                    buttonManager.thingToManipulate.transform.RotateAround(pt, center.transform.right, deltaPos.y * -15);
-                }
+            }
+            else
+            {
+                buttonManager.thingToManipulate.transform.RotateAround(pt, center.transform.right, deltaPos.y * -15);
             }
         }
         else if (buttonManager.currentState == buttonManager.YROT_STATE && buttonManager.thingToManipulate != null)
         {
-            if (Mathf.Abs(deltaPos.x) > 0.5)
+            pt = buttonManager.manipulateClone ? buttonManager.thingToManipulate.transform.position : center.transform.position;
+            if (buttonManager.manipulateClone)
             {
-                pt = buttonManager.manipulateClone ? buttonManager.thingToManipulate.transform.position : center.transform.position;
-                if (buttonManager.manipulateClone)
-                {
-                    buttonManager.thingToManipulate.transform.RotateAround(pt, buttonManager.thingToManipulate.transform.up, Mathf.Sign(deltaPos.x) * 90);
-                    clone.transform.RotateAround(clone.transform.position, clone.transform.up, Mathf.Sign(deltaPos.x) * 90);
+                if ( Mathf.Abs(deltaPos.x) > 0.5) {
+                    buttonManager.thingToManipulate.transform.RotateAround(pt, buttonManager.thingToManipulate.transform.up, Mathf.Sign(deltaPos.y) * 90);
+                    clone.transform.RotateAround(clone.transform.position, clone.transform.up, Mathf.Sign(deltaPos.y) * 90);
                 }
-                else
-                {
-                    buttonManager.thingToManipulate.transform.RotateAround(pt, center.transform.up, deltaPos.x * -15);
-                }
+            }
+            else
+            {
+                buttonManager.thingToManipulate.transform.RotateAround(pt, center.transform.up, deltaPos.y * -15);
             }
         }
         else if (buttonManager.currentState == buttonManager.ZROT_STATE && buttonManager.thingToManipulate != null)
         {
-            if (Mathf.Abs(deltaPos.x) > 0.5)
+            pt = buttonManager.manipulateClone ? buttonManager.thingToManipulate.transform.position : center.transform.position;
+            if (buttonManager.manipulateClone)
             {
-                pt = buttonManager.manipulateClone ? buttonManager.thingToManipulate.transform.position : center.transform.position;
-                if (buttonManager.manipulateClone)
-                {
-                    buttonManager.thingToManipulate.transform.RotateAround(pt, buttonManager.thingToManipulate.transform.forward,  Mathf.Sign(deltaPos.x) * 90);
-                    clone.transform.RotateAround(clone.transform.position, clone.transform.forward, Mathf.Sign(deltaPos.x) * 90);
+                if (Mathf.Abs(deltaPos.x) > 0.5) {
+                    buttonManager.thingToManipulate.transform.RotateAround(pt, buttonManager.thingToManipulate.transform.forward,  Mathf.Sign(deltaPos.y) * 90);
+                    clone.transform.RotateAround(clone.transform.position, clone.transform.forward, Mathf.Sign(deltaPos.y) * 90);
                 }
-                else
-                {
-                    buttonManager.thingToManipulate.transform.RotateAround(pt, center.transform.forward, deltaPos.x * -15);
-                }
+            }
+            else
+            {
+                buttonManager.thingToManipulate.transform.RotateAround(pt, center.transform.forward, deltaPos.y * -15);
             }
         }
 

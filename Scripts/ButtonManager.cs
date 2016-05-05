@@ -41,15 +41,15 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     public bool objSelected;
     public bool doneTeleporting;
     public bool manipulateClone;
-	public Text state;
+    public Text state;
+    public Texture2D deselect;
 
-
-	public CameraScript cameraScript;
+    public CameraScript cameraScript;
     //public GameObject[] prefabBtns;
     public VirtualButtonBehaviour[] buttons;
 
     // Use this for initialization
-    void Start()
+    IEnumerator Start()
     {
         START_STATE = "START";
         ZOOM_STATE = "MAZE";
@@ -76,6 +76,8 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             // Register with the virtual buttons TrackableBehaviour
             buttons[i].RegisterEventHandler(this);
         }
+
+        yield return new WaitForSeconds(2f);
 
         for (int i = 0; i < buttons.Length; ++i)
         {
@@ -136,17 +138,20 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
             buttons[TELEPORT].gameObject.SetActive(true);
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
-			buttons[CANCEL].gameObject.SetActive(true);
+            buttons[CANCEL].gameObject.SetActive(true);
+            buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
             currentState = SELECTED_STATE;
             objSelected = false;
         }
 
         if (doneTeleporting && currentState == TELEPORT_STATE)
         {
+            state.text = "LEAVING TELEPORT.";
             buttons[MANIPULATOR].gameObject.SetActive(true);
             buttons[TRANSLATE].gameObject.SetActive(true);
             buttons[TELEPORT].gameObject.SetActive(true);
-			buttons[CANCEL].gameObject.SetActive(true);
+            buttons[CANCEL].gameObject.SetActive(true);
+            buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
             currentState = SELECTED_STATE;
             doneTeleporting = false;
         }
@@ -313,6 +318,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(true);
                 buttons[TRANSLATE].gameObject.SetActive(true);
                 buttons[TELEPORT].gameObject.SetActive(true);
+                buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
                 currentState = SELECTED_STATE;
             }
             else if (currentState == MANIPULATE_STATE)
@@ -322,6 +328,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
                 buttons[MANIPULATOR].gameObject.SetActive(true);
                 buttons[TRANSLATE].gameObject.SetActive(true);
                 buttons[TELEPORT].gameObject.SetActive(true);
+                buttons[CANCEL].GetComponent<Renderer>().material.mainTexture = deselect;
                 //thingToManipulate = null;
                 manipulateClone = false;
                 currentState = SELECTED_STATE;
