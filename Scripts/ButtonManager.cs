@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Vuforia;
+
 
 public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 
@@ -39,6 +41,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
     public bool objSelected;
     public bool doneTeleporting;
     public bool manipulateClone;
+	public Text state;
 
     //public GameObject[] prefabBtns;
     public VirtualButtonBehaviour[] buttons;
@@ -92,6 +95,10 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
         // }
         Debug.Log(currentState.ToString());
 
+		if (currentState == START_STATE) {
+			state.text = "Touch cookie or press 'Maze'.";
+		}
+
         if (objSelected && currentState == START_STATE)
         {
             buttons[ZOOM].gameObject.SetActive(false);
@@ -121,6 +128,7 @@ public class ButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 		if (vb.CompareTag ("Zoom")) {
 
 			if (currentState == START_STATE) {
+				
 
                 buttons[ZOOM].gameObject.SetActive(false);
                 buttons[ROTATE].gameObject.SetActive(true);

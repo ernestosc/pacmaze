@@ -32,6 +32,7 @@ public class PointerHandler : MonoBehaviour {
         else if (other.gameObject.CompareTag("TargetHouse"))
         {
             winningText.text = "YOU WON!";
+			buttonManager.state.text = "Game over";
             Debug.Log("Winner!");
         }
     }
